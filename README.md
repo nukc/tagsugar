@@ -55,8 +55,8 @@ set a initial value
 
 ```go
 type Model struct {
-    Id    int
-    Sex   int8   `ts:"assign_to(IsMan);assign_type(bool)"`
+	Id    int
+	Sex   int8   `ts:"assign_to(IsMan);assign_type(bool)"`
 	IsMan bool
 }
 
@@ -71,7 +71,7 @@ tagsugar.Lick(&model)
 ```go
 type Model struct {
 	Id     int
-    Json   string `ts:"assign_to(Object);assign_type(unmarshal)" json:"-"`
+	Json   string `ts:"assign_to(Object);assign_type(unmarshal)" json:"-"`
 	Object interface{}
 }
 
@@ -85,7 +85,7 @@ tagsugar.Lick(&model)
 ```go
 type Model struct {
 	Id     int
-    Json   string `ts:"assign_to(Post);assign_type(unmarshal)" json:"-"`
+	Json   string `ts:"assign_to(Post);assign_type(unmarshal)" json:"-"`
 	Post   Post
 }
 
@@ -104,7 +104,7 @@ tagsugar.Lick(&model)
 ```go
 type Model struct {
 	Id     int
-    Json   string `ts:"assign_to(Array);assign_type(unmarshal)" json:"-"`
+	Json   string `ts:"assign_to(Array);assign_type(unmarshal)" json:"-"`
 	Array  []interface{}
 }
 
