@@ -21,9 +21,6 @@ func Lick(data interface{}) {
 
 	switch k {
 	case reflect.Slice:
-		log.Print("----")
-		log.Print(v)
-		log.Print("-----")
 		arraySlice(v)
 		break
 	case reflect.Struct:
