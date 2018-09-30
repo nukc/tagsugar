@@ -1,4 +1,4 @@
-### TagSuger
+## TagSuger
 
 根据字段里的 StructField 设置进行相应的处理，使用方法就好像 json 和 beego.orm 那样。
 
@@ -8,7 +8,7 @@
 
 
 
-#### Useage
+### Usage
 
 ```go
 // if use url(http) options
@@ -18,7 +18,9 @@ tagsugar.Lick(&model)
 
 ```
 
-#### Tag options sample
+
+
+### Tag options sample
 
 - url(http)
 
@@ -115,6 +117,6 @@ tagsugar.Lick(&model)
 
 
 
-#### License
+### License
 
 Apache License, Version 2.0
