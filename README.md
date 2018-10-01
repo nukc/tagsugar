@@ -1,8 +1,8 @@
-## TagSuger
+## TagSugar
 
 根据字段里的 StructField 设置进行相应的处理，使用方法就好像 json 和 beego.orm 那样。
 
-有时候，数据库存储头像或者其它文件的时候保存的是一个路径或者一个 key，查询出来的时候，往往并没有拼接域名地址；如果每次都要自己手动拼接一次的话，真的感觉好累，为了不想多做不必要的逻辑判断和代码，然后就去看了下 json 和 beego.orm 的实现方法都是通过反射处理的，于是就有了 TagSuger。
+有时候，数据库存储头像或者其它文件的时候保存的是一个路径或者一个 key，查询出来的时候，往往并没有拼接域名地址；如果每次都要自己手动拼接一次的话，真的感觉好累，为了不想多做不必要的逻辑判断和代码，然后就去看了下 json 和 beego.orm 的实现方法都是通过反射处理的，于是就有了 TagSugar。
 
 还有些情况就是数据库字段保存的是一个 json 字符串，想要转换成一个 json 对象或数组。（在这里我使用的是 MySQL/MariaDB）
 
@@ -10,11 +10,23 @@
 
 ### Usage
 
-```go
-// if use url(http) options
-tagsugar.Http = "https://cdn.github.com/"
+#### Download and install
 
-tagsugar.Lick(&model)
+```
+go get github.com/nukc/tagsugar
+```
+
+```go
+package main
+
+import "github.com/nukc/tagsugar"
+
+func main(){
+    // if use url(http) options
+    tagsugar.Http = "https://cdn.github.com/"
+
+    tagsugar.Lick(&model)
+}
 
 ```
 

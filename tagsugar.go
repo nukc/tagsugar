@@ -14,28 +14,34 @@ var (
 func Lick(data interface{}) {
 	v := reflect.ValueOf(data)
 	k := v.Kind()
+	resolveValue(v, k)
+}
 
-	if k == reflect.Ptr {
-		v, k = ekByPtr(v)
-	}
+// get the value that the Elem and the Elem's Kind.
+func getEkByValue(value reflect.Value) (v reflect.Value, k reflect.Kind) {
+	v = value.Elem()
+	k = v.Kind()
+	return
+}
 
+func resolveValue(v reflect.Value, k reflect.Kind) {
 	switch k {
+	case reflect.Ptr:
+		v, k = getEkByValue(v)
+		resolveValue(v, k)
+		break
 	case reflect.Slice:
 		arraySlice(v)
 		break
 	case reflect.Struct:
-		resolveField(v, v.Type())
+		resolveField(v)
 		break
+	case reflect.Interface:
+		v, k = getEkByValue(v)
+		resolveValue(v, k)
 	default:
-		log.Panic("Unsupported kind: " + k.String())
+		log.Print("Ignore kind: " + k.String())
 	}
-}
-
-// get the value that the Elem and the Elem's Kind.
-func ekByPtr(value reflect.Value) (v reflect.Value, k reflect.Kind) {
-	v = value.Elem()
-	k = v.Kind()
-	return
 }
 
 // slice
@@ -45,13 +51,16 @@ func arraySlice(v reflect.Value) {
 		item := v.Index(i)
 		k := item.Kind()
 		if k != reflect.Interface {
-			resolveField(item, item.Type())
+			resolveField(item)
+		} else {
+			resolveValue(item, k)
 		}
 	}
 }
 
 // resolve the value that field
-func resolveField(value reflect.Value, p reflect.Type) {
+func resolveField(value reflect.Value) {
+	p := value.Type()
 	l := p.NumField()
 	for i := 0; i < l; i++ {
 		field := value.Field(i)
@@ -60,8 +69,11 @@ func resolveField(value reflect.Value, p reflect.Type) {
 			arraySlice(field)
 			continue
 		} else if k == reflect.Ptr {
-			field, k = ekByPtr(field)
-			resolveField(field, field.Type())
+			field, k = getEkByValue(field)
+			resolveField(field)
+			continue
+		} else if k == reflect.Interface {
+			resolveValue(field, k)
 			continue
 		}
 
