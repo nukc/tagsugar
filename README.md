@@ -39,13 +39,13 @@ func main(){
 
 ### Tag options support list
 
-- url(http)
-- initial // set a initial value
-- assign_to(FiledB) // FiledB is other filed
-- assign_type(mode)  // mode list:
-  - raw: default mode, assign_to FiledB a raw value
-  - bool: assign_to FiledB a bool value
-  - unmarshal: set the FiledB a json.Unmarshal(str, &obj) value
+- url(http) ``// += tagsugar.Http``
+- initial ``// set a initial value ``
+- assign_to(FiledB) ``// FiledB is other filed``
+- assign_type(mode)  ``// mode list:``
+  > - raw: default mode, assign_to FiledB a raw value
+  > - bool: assign_to FiledB a bool value
+  > - unmarshal: set the FiledB a json.Unmarshal(str, &obj) value
 
 ### Tag options sample
 
