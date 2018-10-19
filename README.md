@@ -4,8 +4,9 @@
 
 <p align="center">
     <a href="https://travis-ci.org/nukc/tagsugar"><img src="https://img.shields.io/travis/nukc/tagsugar.svg?style=flat-square"/></a>
-    <a href="https://github.com/nukc/tagsugar/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-Apache-brightgreen.svg?style=flat-square"/></a>
+    <a href="https://github.com/nukc/tagsugar/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-Apache-757575.svg?style=flat-square"/></a>
 </p>
+
 
 ## Intention
 
