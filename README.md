@@ -1,16 +1,23 @@
-## TagSugar
+# TagSugar
 
-根据字段里的 StructField 设置进行相应的处理，使用方法就好像 json 和 beego.orm 那样。
+> 根据字段里的 StructField 设置进行相应的处理，使用方法就好像 json 和 beego.orm 那样。
 
-有时候，数据库存储头像或者其它文件的时候保存的是一个路径或者一个 key，查询出来的时候，往往并没有拼接域名地址；如果每次都要自己手动拼接一次的话，真的感觉好累，为了不想多做不必要的逻辑判断和代码，然后就去看了下 json 和 beego.orm 的实现方法都是通过反射处理的，于是就有了 TagSugar。
+<p align="center">
+    <a href="https://travis-ci.org/nukc/tagsugar"><img src="https://img.shields.io/travis/nukc/tagsugar.svg?style=flat-square"/></a>
+    <a href="https://github.com/nukc/tagsugar/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-Apache-brightgreen.svg?style=flat-square"/></a>
+</p>
 
-还有些情况就是数据库字段保存的是一个 json 字符串，想要转换成一个 json 对象或数组。（在这里我使用的是 MySQL/MariaDB）
+## Intention
+
+数据库存储头像或者其它文件的时候保存的是一个路径或者一个 key，查询出来的时候，往往并没有拼接域名地址；如果每次都要自己手动拼接一次的话，真的感觉好累，为了不想多做不必要的逻辑判断和代码
+
+还有些情况就是数据库字段保存的是一个 json 字符串，想要在输出之前转换成一个 json 对象或数组。
 
 
 
-### Usage
+## Usage
 
-#### Download and install
+### Download and install
 
 ```
 go get github.com/nukc/tagsugar
@@ -30,11 +37,19 @@ func main(){
 
 ```
 
+### Tag options support list
 
+- url(http)
+- initial // set a initial value
+- assign_to(FiledB) // FiledB is other filed
+- assign_type(mode)  // mode list:
+  - raw: default mode, assign_to FiledB a raw value
+  - bool: assign_to FiledB a bool value
+  - unmarshal: set the FiledB a json.Unmarshal(str, &obj) value
 
 ### Tag options sample
 
-- url(http)
+> url(http)
 
 ```go
 type Model struct {
@@ -49,21 +64,7 @@ log.Print(model.Image)
 // https://cdn.github.com/test.png
 ```
 
-
-
-- initial
-
-set a initial value
-
-
-
-- assign_to(otherFieldName)
-- assign_type(raw)
-  - raw: default
-  - bool: set the otherFieldName a bool
-  - unmarshal: set the otherFieldName a json.Unmarshal(str, &obj) value
-
-##### assign_type(bool)
+> assign_type(bool)
 
 ```go
 type Model struct {
@@ -78,7 +79,7 @@ tagsugar.Lick(&model)
 // IsMan : true
 ```
 
-##### assign_type(unmarshal)
+> assign_type(unmarshal)
 
 ```go
 type Model struct {
@@ -129,6 +130,6 @@ tagsugar.Lick(&model)
 
 
 
-### License
+## License
 
 Apache License, Version 2.0
