@@ -60,6 +60,9 @@ func arraySlice(v reflect.Value) {
 
 // resolve the value that field
 func resolveField(value reflect.Value) {
+	if !value.IsValid() {
+		return
+	}
 	p := value.Type()
 	l := p.NumField()
 	for i := 0; i < l; i++ {
@@ -79,14 +82,17 @@ func resolveField(value reflect.Value) {
 
 		sf := p.Field(i)
 		options := parseTag(sf.Tag.Get("ts"))
-		changeField(value, field, options)
+		if err := changeField(value, field, options); err != nil {
+			log.Print(err)
+		}
+
 	}
 }
 
 // change field according to tag options
 func changeField(v reflect.Value, field reflect.Value, options tagOptions) error {
 	if _, ok := options["-"]; ok || len(options) == 0 {
-		return errors.New("skip field")
+		return nil
 	}
 
 	if _, ok := options["initial"]; ok {
@@ -115,6 +121,9 @@ func changeField(v reflect.Value, field reflect.Value, options tagOptions) error
 		switch options["assign_type"] {
 		case "unmarshal":
 			str := field.String()
+			if str == "" {
+				return errors.New("unexpected end of JSON input")
+			}
 
 			obj := newInterface(cFiled)
 			err := json.Unmarshal([]byte(str), &obj)
