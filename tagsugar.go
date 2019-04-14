@@ -5,6 +5,7 @@ import (
 	"errors"
 	"log"
 	"reflect"
+	"strings"
 )
 
 var (
@@ -105,7 +106,10 @@ func changeField(v reflect.Value, field reflect.Value, options tagOptions) error
 	url := options["url"]
 	if url == "http" {
 		if field.CanSet() {
-			field.Set(reflect.ValueOf(Http + field.String()))
+			var s = field.String()
+			if !strings.HasPrefix(s, "http") {
+				field.Set(reflect.ValueOf(Http + s))
+			}
 		}
 	}
 
