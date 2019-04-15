@@ -51,10 +51,12 @@ func arraySlice(v reflect.Value) {
 	for i := 0; i < count; i++ {
 		item := v.Index(i)
 		k := item.Kind()
-		if k != reflect.Interface {
-			resolveField(item)
-		} else {
+		switch k {
+		case reflect.Interface:
 			resolveValue(item, k)
+			break
+		case reflect.Struct, reflect.Map, reflect.Array, reflect.Ptr, reflect.Slice:
+			resolveField(item)
 		}
 	}
 }
