@@ -55,8 +55,13 @@ func arraySlice(v reflect.Value) {
 		case reflect.Interface:
 			resolveValue(item, k)
 			break
-		case reflect.Struct, reflect.Array, reflect.Ptr, reflect.Slice:
+		case reflect.Struct, reflect.Array, reflect.Slice:
 			resolveField(item)
+			break
+		case reflect.Ptr:
+			value, _ := getEkByValue(item)
+			resolveField(value)
+			break
 		}
 	}
 }
