@@ -11,6 +11,7 @@ var supportTag = map[string]int{
 	"-":           1,
 	"initial":     1,
 	"url":         2,
+	"host":        2,
 	"assign_to":   2,
 	"assign_type": 2,
 }

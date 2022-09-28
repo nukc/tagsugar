@@ -7,11 +7,12 @@ import (
 )
 
 type Model struct {
-	Id    int
-	Name  string `ts:"-"`
-	Sex   int8   `ts:"assign_to(IsMan);assign_type(bool)"`
-	IsMan bool
-	Image string `ts:"url(http)"`
+	Id     int
+	Name   string `ts:"-"`
+	Sex    int8   `ts:"assign_to(IsMan);assign_type(bool)"`
+	IsMan  bool
+	Image  string `ts:"url(http)"`
+	Avatar string `ts:"host(cdn)"`
 
 	Json   string `ts:"assign_to(Object);assign_type(unmarshal)"`
 	Object interface{}

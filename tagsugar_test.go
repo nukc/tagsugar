@@ -40,3 +40,11 @@ func TestArrayJsonUnmarshal(t *testing.T) {
 	Lick(&model)
 	log.Print(model.Array)
 }
+
+func TestHost(t *testing.T) {
+	AddHost("cdn", "https://cdn.example.com/")
+	model := Model{Id: 5, Avatar: "5.png"}
+	log.Print(model.Avatar)
+	Lick(&model)
+	log.Print(model.Avatar)
+}

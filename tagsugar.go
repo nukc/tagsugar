@@ -9,8 +9,13 @@ import (
 )
 
 var (
-	Http = ""
+	Http    = ""
+	hostMap = make(map[string]string, 0)
 )
+
+func AddHost(key string, host string) {
+	hostMap[key] = host
+}
 
 func Lick(data interface{}) {
 	v := reflect.ValueOf(data)
@@ -116,6 +121,17 @@ func changeField(v reflect.Value, field reflect.Value, options tagOptions) error
 			var s = field.String()
 			if !strings.HasPrefix(s, "http") {
 				field.Set(reflect.ValueOf(Http + s))
+			}
+		}
+	}
+
+	host := options["host"]
+	if host != "" {
+		if field.CanSet() {
+			s := field.String()
+			value := hostMap[host]
+			if value != "" {
+				field.Set(reflect.ValueOf(value + s))
 			}
 		}
 	}
