@@ -5,6 +5,7 @@ import (
 	"errors"
 	"log"
 	"reflect"
+	"strconv"
 	"strings"
 )
 
@@ -35,13 +36,10 @@ func resolveValue(v reflect.Value, k reflect.Kind) {
 	case reflect.Ptr:
 		v, k = getEkByValue(v)
 		resolveValue(v, k)
-		break
 	case reflect.Slice:
 		arraySlice(v)
-		break
 	case reflect.Struct:
 		resolveField(v)
-		break
 	case reflect.Interface:
 		v, k = getEkByValue(v)
 		resolveValue(v, k)
@@ -59,14 +57,11 @@ func arraySlice(v reflect.Value) {
 		switch k {
 		case reflect.Interface:
 			resolveValue(item, k)
-			break
 		case reflect.Struct, reflect.Array, reflect.Slice:
 			resolveField(item)
-			break
 		case reflect.Ptr:
 			value, _ := getEkByValue(item)
 			resolveField(value)
-			break
 		}
 	}
 }
@@ -160,13 +155,14 @@ func changeField(v reflect.Value, field reflect.Value, options tagOptions) error
 			} else {
 				return err
 			}
-			break
 		case "bool":
 			b := assignBool(field)
 			cFiled.SetBool(b)
 		case "raw":
 			cFiled.Set(field)
-			break
+		case "string":
+			s := assignString(field)
+			cFiled.SetString(s)
 		default:
 			cFiled.Set(field)
 		}
@@ -187,10 +183,27 @@ func assignBool(v reflect.Value) bool {
 	switch k {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		return v.Int() == 1
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		return v.Uint() == 1
 	case reflect.String:
 		return v.String() == "1"
 	case reflect.Bool:
 		return v.Bool()
 	}
-	panic(&reflect.ValueError{"ts tag assignBool", k})
+	panic(&reflect.ValueError{Method: "ts tag assignBool", Kind: k})
+}
+
+func assignString(v reflect.Value) string {
+	k := v.Kind()
+	switch k {
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		return strconv.FormatInt(v.Int(), 10)
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		return strconv.FormatUint(v.Uint(), 10)
+	case reflect.String:
+		return v.String()
+	case reflect.Bool:
+		return strconv.FormatBool(v.Bool())
+	}
+	panic(&reflect.ValueError{Method: "ts tag assignString", Kind: k})
 }
