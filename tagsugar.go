@@ -11,6 +11,7 @@ import (
 
 var (
 	Http    = ""
+	Debug   = false
 	hostMap = make(map[string]string, 0)
 )
 
@@ -44,7 +45,9 @@ func resolveValue(v reflect.Value, k reflect.Kind) {
 		v, k = getEkByValue(v)
 		resolveValue(v, k)
 	default:
-		log.Print("Ignore kind: " + k.String())
+		if Debug {
+			log.Print("Ignore kind: " + k.String())
+		}
 	}
 }
 
@@ -90,7 +93,7 @@ func resolveField(value reflect.Value) {
 
 		sf := p.Field(i)
 		options := parseTag(sf.Tag.Get("ts"))
-		if err := changeField(value, field, options); err != nil {
+		if err := changeField(value, field, options); err != nil && Debug {
 			log.Print(err)
 		}
 

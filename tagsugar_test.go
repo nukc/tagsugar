@@ -7,6 +7,7 @@ import (
 
 func TestModel(t *testing.T) {
 	Http = "https://cdn.github.com/"
+	Debug = true
 
 	json := "{\"id\": 1, \"post\": 2}"
 	array := "[{\"id\": 1, \"post\": 3},{\"id\": 2, \"post\": 66}]"
