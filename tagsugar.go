@@ -84,7 +84,7 @@ func resolveField(value reflect.Value) {
 			continue
 		} else if k == reflect.Ptr {
 			field, k = getEkByValue(field)
-			resolveField(field)
+			resolveValue(field, k)
 			continue
 		} else if k == reflect.Interface {
 			resolveValue(field, k)
