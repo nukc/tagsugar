@@ -117,7 +117,7 @@ func changeField(v reflect.Value, field reflect.Value, options tagOptions) error
 	if url == "http" {
 		if field.CanSet() {
 			var s = field.String()
-			if !strings.HasPrefix(s, "http") {
+			if s != "" && !strings.HasPrefix(s, "http") {
 				field.Set(reflect.ValueOf(Http + s))
 			}
 		}
@@ -128,7 +128,7 @@ func changeField(v reflect.Value, field reflect.Value, options tagOptions) error
 		if field.CanSet() {
 			s := field.String()
 			value := hostMap[host]
-			if value != "" {
+			if s != "" && value != "" {
 				field.Set(reflect.ValueOf(value + s))
 			}
 		}
